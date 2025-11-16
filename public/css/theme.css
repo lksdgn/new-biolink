@@ -1,0 +1,230 @@
+/* Theme Variations for Viewer Pages */
+
+/* Default Theme (já definido em base.css) */
+
+/* Dark Blue Theme */
+body[data-theme="dark-blue"] {
+  --bg-dark: #0a1628;
+  --bg-darker: #04090f;
+  --bg-card: #142742;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-light: #60a5fa;
+}
+
+/* Purple Theme */
+body[data-theme="purple"] {
+  --bg-dark: #1e1b4b;
+  --bg-darker: #0f0d2e;
+  --bg-card: #312e81;
+  --primary: #a855f7;
+  --primary-dark: #9333ea;
+  --primary-light: #c084fc;
+}
+
+/* Green Theme */
+body[data-theme="green"] {
+  --bg-dark: #052e16;
+  --bg-darker: #021e0c;
+  --bg-card: #14532d;
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --primary-light: #34d399;
+}
+
+/* Pink Theme */
+body[data-theme="pink"] {
+  --bg-dark: #4a0e4e;
+  --bg-darker: #2d0830;
+  --bg-card: #701a75;
+  --primary: #ec4899;
+  --primary-dark: #db2777;
+  --primary-light: #f472b6;
+}
+
+/* Orange Theme */
+body[data-theme="orange"] {
+  --bg-dark: #431407;
+  --bg-darker: #2c0d04;
+  --bg-card: #7c2d12;
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+  --primary-light: #fb923c;
+}
+
+/* Light Theme */
+body[data-theme="light"] {
+  --bg-dark: #ffffff;
+  --bg-darker: #f9fafb;
+  --bg-card: #f3f4f6;
+  --bg-hover: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+}
+
+/* Minimal Theme */
+body[data-theme="minimal"] {
+  --bg-dark: #000000;
+  --bg-darker: #000000;
+  --bg-card: #111111;
+  --bg-hover: #1a1a1a;
+  --border-color: #222222;
+  --primary: #ffffff;
+  --primary-dark: #e5e5e5;
+  --primary-light: #ffffff;
+}
+
+/* Gradient Themes */
+
+body[data-theme="gradient-1"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body[data-theme="gradient-2"] {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+body[data-theme="gradient-3"] {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+body[data-theme="gradient-4"] {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* Custom Background Image */
+body[data-bg-image] {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body[data-bg-image]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* Text Alignment Options */
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Font Size Options */
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-base {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.5s ease;
+}
+
+.animate-slide-down {
+  animation: slideInDown 0.5s ease;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease;
+}
+
+/* Stagger animations for lists */
+
+.stagger-fade-in > * {
+  animation: fadeIn 0.5s ease;
+  animation-fill-mode: both;
+}
+
+.stagger-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-fade-in > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-fade-in > *:nth-child(8) { animation-delay: 0.8s; }
+.stagger-fade-in > *:nth-child(9) { animation-delay: 0.9s; }
+.stagger-fade-in > *:nth-child(10) { animation-delay: 1s; }

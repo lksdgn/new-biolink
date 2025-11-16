@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - NewLink</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div style="margin-bottom: 2rem;">
+        <a href="/" style="font-size: 1.5rem; font-weight: 700;">
+          <span>⚡</span> NewLink
+        </a>
+      </div>
+
+      <div style="margin-bottom: 2rem;">
+        <div class="user-username" style="font-weight: 600; margin-bottom: 0.25rem;"></div>
+        <div class="user-email" style="color: var(--text-muted); font-size: 0.875rem;"></div>
+      </div>
+
+      <nav style="margin-bottom: 2rem;">
+        <a href="/dashboard.html" class="nav-link active" style="display: block; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem; background-color: var(--bg-hover);">
+          📝 Editor
+        </a>
+        <a href="/pricing.html" class="nav-link" style="display: block; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+          💎 Premium
+        </a>
+        <a href="/leaderboard.html" class="nav-link" style="display: block; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+          🏆 Ranking
+        </a>
+      </nav>
+
+      <div style="margin-bottom: 2rem;">
+        <button id="logoutBtn" class="btn btn-secondary" style="width: 100%;">
+          Sair
+        </button>
+      </div>
+
+      <div class="card" style="padding: 1rem; font-size: 0.875rem;">
+        <strong style="display: block; margin-bottom: 0.5rem;">Seu Link Público:</strong>
+        <a href="#" class="public-url" target="_blank" style="word-break: break-all; color: var(--primary);"></a>
+        <button id="copyUrlBtn" class="btn btn-sm btn-outline" style="width: 100%; margin-top: 0.75rem;">
+          Copiar Link
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1>Editor de Página</h1>
+        <button id="publishBtn" class="btn btn-primary">
+          Publicar
+        </button>
+      </div>
+
+      <!-- Profile Settings -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1.5rem;">Perfil do NewLink</h3>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <!-- Avatar -->
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Avatar</label>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div id="avatarPreview" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 2px solid var(--border-color); overflow: hidden;">
+                👤
+              </div>
+              <button id="changeAvatarBtn" class="btn btn-secondary btn-sm">
+                Alterar Avatar
+              </button>
+            </div>
+          </div>
+
+          <!-- Display Name -->
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Nome de Exibição</label>
+            <small class="text-muted" style="display: block; margin-bottom: 0.75rem;">
+              Este nome aparecerá no seu biolink público
+            </small>
+            <input type="text" id="displayNameInput" placeholder="Seu nome" maxlength="50" style="width: 100%;">
+            <button id="saveDisplayNameBtn" class="btn btn-primary btn-sm" style="margin-top: 0.75rem; width: 100%;">
+              Salvar Nome
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Block Buttons -->
+      <div class="add-block-section">
+        <h3 style="margin-bottom: 1rem;">Adicionar Bloco</h3>
+        <div class="add-block-grid">
+          <button class="add-block-btn" data-add-block="text">
+            <div class="add-block-icon">📝</div>
+            <div class="add-block-label">Texto</div>
+          </button>
+
+          <button class="add-block-btn" data-add-block="link">
+            <div class="add-block-icon">🔗</div>
+            <div class="add-block-label">Link</div>
+          </button>
+
+          <button class="add-block-btn" data-add-block="image">
+            <div class="add-block-icon">🖼️</div>
+            <div class="add-block-label">Imagem</div>
+          </button>
+
+          <button class="add-block-btn" data-add-block="spotify">
+            <div class="add-block-icon">🎵</div>
+            <div class="add-block-label">Spotify</div>
+          </button>
+
+          <button class="add-block-btn" data-add-block="discord">
+            <div class="add-block-icon">💬</div>
+            <div class="add-block-label">Discord</div>
+          </button>
+
+          <button class="add-block-btn" data-add-block="divider">
+            <div class="add-block-icon">➖</div>
+            <div class="add-block-label">Divisor</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Blocks Container -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3>Seus Blocos</h3>
+          <small class="text-muted">Arraste para reordenar</small>
+        </div>
+        <div id="blocksContainer"></div>
+      </div>
+
+      <!-- Badges Section -->
+      <div style="margin-top: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3>Badges</h3>
+          <button id="toggleBadgesBtn" class="btn btn-secondary">
+            <span id="badgesToggleText">Ocultar Badges</span>
+          </button>
+        </div>
+
+        <!-- Badges Pré-definidas -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 1rem;">Badges Pré-definidas</h4>
+          <div id="presetBadgesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            <!-- Será preenchido via JS -->
+          </div>
+        </div>
+
+        <!-- Badges Customizadas -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h4>Badges Customizadas</h4>
+            <button id="addCustomBadgeBtn" class="btn btn-primary btn-sm">
+              + Adicionar Badge
+            </button>
+          </div>
+          <small class="text-muted" style="display: block; margin-bottom: 1rem;">
+            Você pode adicionar até 3 badges customizadas com nome e imagem
+          </small>
+          <div id="customBadgesContainer">
+            <!-- Será preenchido via JS -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

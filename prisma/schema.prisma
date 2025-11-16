@@ -1,0 +1,103 @@
+// Prisma schema para sistema Biolink
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  username      String
+  slug          String    @unique
+  premiumUntil  DateTime? @map("premium_until")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // OAuth tokens
+  spotifyAccessToken   String? @map("spotify_access_token")
+  spotifyRefreshToken  String? @map("spotify_refresh_token")
+  spotifyScopes        String? @map("spotify_scopes")
+
+  discordId            String? @map("discord_id")
+  discordUsername      String? @map("discord_username")
+  discordDiscriminator String? @map("discord_discriminator")
+  discordAvatar        String? @map("discord_avatar")
+
+  // Refresh token para JWT
+  refreshToken String? @map("refresh_token")
+
+  pages Pages[]
+
+  @@map("users")
+}
+
+model Pages {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  theme       Json     @default("{}")
+  isPublished Boolean  @default(false) @map("is_published")
+  showBadges  Boolean  @default(true) @map("show_badges")
+  avatarUrl   String?  @map("avatar_url")
+  displayName String?  @map("display_name")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blocks Block[]
+  views  View[]
+  badges Badge[]
+
+  @@map("pages")
+}
+
+model Block {
+  id       String @id @default(uuid())
+  pageId   String @map("page_id")
+  type     String // text, link, image, spotify, discord, divider
+  position Int
+  data     Json   @default("{}")
+
+  page Pages @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@map("blocks")
+}
+
+model View {
+  id        String   @id @default(uuid())
+  pageId    String   @map("page_id")
+  ipAddress String?  @map("ip_address")
+  date      DateTime @default(now())
+
+  page Pages @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@map("views")
+}
+
+model Badge {
+  id        String   @id @default(uuid())
+  pageId    String   @map("page_id")
+  type      String   // 'preset' ou 'custom'
+  name      String   // Nome da badge
+  imageUrl  String?  @map("image_url") // URL da imagem (para custom)
+  presetKey String?  @map("preset_key") // Chave para badges pré-definidas
+  createdAt DateTime @default(now()) @map("created_at")
+
+  page Pages @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@map("badges")
+}
+
+model LeaderboardCache {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  viewsTotal Int      @default(0) @map("views_total")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("leaderboard_cache")
+}

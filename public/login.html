@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - NewLink</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card animate-scale-in">
+      <div class="auth-header">
+        <a href="/" style="font-size: 2rem; display: block; margin-bottom: 1rem;">
+          <span>⚡</span> NewLink
+        </a>
+        <h1 class="auth-title">Bem-vindo de volta</h1>
+        <p class="auth-subtitle">Entre com sua conta</p>
+      </div>
+
+      <div id="errorContainer"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+            autocomplete="email"
+          >
+          <div class="form-error hidden" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          >
+          <div class="form-error hidden" id="passwordError"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">
+          Entrar
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Não tem uma conta?
+        <a href="/register.html">Criar conta</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // Redirecionar se já estiver autenticado
+    redirectIfAuthenticated();
+
+    // Form submission
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = document.getElementById('submitBtn');
+      const errorContainer = document.getElementById('errorContainer');
+
+      // Limpar erros anteriores
+      errorContainer.innerHTML = '';
+      document.querySelectorAll('.form-error').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+      });
+
+      // Validações
+      if (!validateEmail(email)) {
+        const emailError = document.getElementById('emailError');
+        emailError.textContent = 'Email inválido';
+        emailError.classList.remove('hidden');
+        return;
+      }
+
+      if (!password) {
+        const passwordError = document.getElementById('passwordError');
+        passwordError.textContent = 'Senha é obrigatória';
+        passwordError.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        toggleLoading(true, submitBtn);
+
+        await login(email, password);
+
+        showSuccess('Login realizado com sucesso!', errorContainer);
+
+        // Redirecionar para dashboard
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 1000);
+
+      } catch (error) {
+        showError(error.message || 'Erro ao fazer login. Verifique suas credenciais.', errorContainer);
+      } finally {
+        toggleLoading(false, submitBtn);
+      }
+    });
+  </script>
+</body>
+</html>

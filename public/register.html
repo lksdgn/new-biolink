@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Conta - NewLink</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card animate-scale-in">
+      <div class="auth-header">
+        <a href="/" style="font-size: 2rem; display: block; margin-bottom: 1rem;">
+          <span>⚡</span> NewLink
+        </a>
+        <h1 class="auth-title">Criar sua conta</h1>
+        <p class="auth-subtitle">Comece gratuitamente</p>
+      </div>
+
+      <div id="errorContainer"></div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="seu_usuario"
+            required
+            autocomplete="username"
+            minlength="3"
+            maxlength="30"
+          >
+          <small class="text-muted">Seu link será: newlink.com/seu_usuario</small>
+          <div class="form-error hidden" id="usernameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+            autocomplete="email"
+          >
+          <div class="form-error hidden" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+            autocomplete="new-password"
+            minlength="8"
+          >
+          <small class="text-muted">Mínimo 8 caracteres</small>
+          <div class="form-error hidden" id="passwordError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Senha</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="••••••••"
+            required
+            autocomplete="new-password"
+          >
+          <div class="form-error hidden" id="confirmPasswordError"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">
+          Criar Conta
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Já tem uma conta?
+        <a href="/login.html">Fazer login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // Redirecionar se já estiver autenticado
+    redirectIfAuthenticated();
+
+    // Form submission
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const submitBtn = document.getElementById('submitBtn');
+      const errorContainer = document.getElementById('errorContainer');
+
+      // Limpar erros anteriores
+      errorContainer.innerHTML = '';
+      document.querySelectorAll('.form-error').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+      });
+
+      // Validações
+      let hasError = false;
+
+      if (!validateUsername(username)) {
+        const usernameError = document.getElementById('usernameError');
+        usernameError.textContent = 'Username deve ter entre 3 e 30 caracteres';
+        usernameError.classList.remove('hidden');
+        hasError = true;
+      }
+
+      if (!validateEmail(email)) {
+        const emailError = document.getElementById('emailError');
+        emailError.textContent = 'Email inválido';
+        emailError.classList.remove('hidden');
+        hasError = true;
+      }
+
+      if (!validatePassword(password)) {
+        const passwordError = document.getElementById('passwordError');
+        passwordError.textContent = 'Senha deve ter no mínimo 8 caracteres';
+        passwordError.classList.remove('hidden');
+        hasError = true;
+      }
+
+      if (password !== confirmPassword) {
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+        confirmPasswordError.textContent = 'Senhas não conferem';
+        confirmPasswordError.classList.remove('hidden');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      try {
+        toggleLoading(true, submitBtn);
+
+        await register(email, password, username);
+
+        showSuccess('Conta criada com sucesso!', errorContainer);
+
+        // Redirecionar para dashboard
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 1000);
+
+      } catch (error) {
+        showError(error.message || 'Erro ao criar conta. Tente novamente.', errorContainer);
+      } finally {
+        toggleLoading(false, submitBtn);
+      }
+    });
+  </script>
+</body>
+</html>

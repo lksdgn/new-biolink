@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewLink</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/viewer.css">
+</head>
+<body>
+  <!-- Background -->
+  <div class="background-container">
+    <div class="background-image" id="backgroundImage"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Floating Decorative Elements -->
+  <div class="floating-particles">
+    <div class="particle particle-1">⚡</div>
+    <div class="particle particle-2">⚡</div>
+    <div class="particle particle-3">✨</div>
+    <div class="particle particle-4">✨</div>
+    <div class="particle particle-5">⭐</div>
+    <div class="particle particle-6">💫</div>
+  </div>
+
+  <!-- Viewer Page -->
+  <div class="viewer-page">
+    <div class="profile-container">
+      <!-- Avatar -->
+      <div class="avatar-container">
+        <div class="avatar" id="avatar"></div>
+      </div>
+
+      <!-- Username -->
+      <h1 class="username" id="username"></h1>
+
+      <!-- Bio -->
+      <p class="bio" id="bio"></p>
+
+      <!-- Tags -->
+      <div class="tags" id="tags"></div>
+
+      <!-- Badges -->
+      <div class="badges" id="badges"></div>
+
+      <!-- Blocks -->
+      <div class="blocks-container" id="blocksContainer"></div>
+
+      <!-- Footer Views -->
+      <div class="footer-views">
+        <span>👁️</span>
+        <span class="views-count" id="viewsCount">0</span>
+        <span>visualizações</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Powered by -->
+  <div style="
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.875rem;
+    z-index: 1000;
+  ">
+    Criado com <a href="/" style="color: var(--primary); text-decoration: none;">⚡ HypeLink</a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/viewer.js"></script>
+</body>
+</html>
