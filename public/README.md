@@ -2,7 +2,7 @@
 
 > **Nota**: Este projeto foi desenvolvido como hobby e não está totalmente completo. Sinta-se livre para finalizar e usar o projeto.
 
-# Front-end NewLink (NÃO FINALIZADO)
+# Front-end NewLink
 
 Front-end completo desenvolvido em HTML5, CSS3 e JavaScript puro (vanilla) para integrar com o backend NewLink.
 
